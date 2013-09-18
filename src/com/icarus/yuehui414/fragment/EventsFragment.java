@@ -26,6 +26,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class EventsFragment extends Fragment {
 	private ListView lvEvents;
 	private View footView;
 	private TextView loading_msg;
+	private Spinner spnSex;
 	private Appointment appointment;
 	private List<Map<String, Object>> list;
 	private Map<String, Object> map;
