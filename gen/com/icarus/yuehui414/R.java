@@ -51,13 +51,13 @@ public final class R {
         public static final int no_button_style=0x7f020005;
     }
     public static final class id {
-        public static final int action_settings=0x7f0b0015;
+        public static final int action_settings=0x7f0b0016;
         public static final int drawer=0x7f0b0002;
         public static final int drawer_layout=0x7f0b0000;
         public static final int ivIcon=0x7f0b000f;
         public static final int ivLU_pic=0x7f0b000a;
         public static final int ivLeft=0x7f0b0011;
-        public static final int ivRight=0x7f0b0013;
+        public static final int ivRight=0x7f0b0014;
         public static final int ivUser=0x7f0b0008;
         public static final int layMenu=0x7f0b000e;
         public static final int layUser=0x7f0b0007;
@@ -66,13 +66,14 @@ public final class R {
         public static final int loading_msg=0x7f0b0006;
         public static final int lvEvents=0x7f0b0003;
         public static final int main=0x7f0b0001;
-        public static final int pbWait=0x7f0b0014;
+        public static final int pbWait=0x7f0b0015;
+        public static final int spnSex=0x7f0b0012;
         public static final int textView1=0x7f0b0004;
         public static final int tvLA_name=0x7f0b000b;
         public static final int tvLU_Address=0x7f0b000c;
         public static final int tvLU_Detail=0x7f0b000d;
         public static final int tvMenu=0x7f0b0010;
-        public static final int tvTitle=0x7f0b0012;
+        public static final int tvTitle=0x7f0b0013;
         public static final int tvUser=0x7f0b0009;
     }
     public static final class layout {

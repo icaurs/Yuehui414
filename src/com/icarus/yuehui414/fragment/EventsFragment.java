@@ -81,6 +81,7 @@ public class EventsFragment extends Fragment {
 			
 		}
 		
+		spnSex = (Spinner) getActivity().findViewById(R.id.spnSex);
 		pbWait = (ProgressBar) getActivity().findViewById(R.id.pbWait);
 		lvEvents = (ListView) getActivity().findViewById(R.id.lvEvents);
 		footView = LayoutInflater.from(getActivity()).inflate(R.layout.list_foot, null);
