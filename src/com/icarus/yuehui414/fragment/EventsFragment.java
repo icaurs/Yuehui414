@@ -22,14 +22,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView.FindListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class EventsFragment extends Fragment {
 	
 	private ProgressBar pbWait;
 	private ListView lvEvents;
+	private View footView;
+	private TextView loading_msg;
 	private Appointment appointment;
 	private List<Map<String, Object>> list;
 	private Map<String, Object> map;
@@ -40,6 +45,17 @@ public class EventsFragment extends Fragment {
 	private AsyncTaskHelper asyncTaskHelper;
 	//-2表示访问webservice有异常，-1表示返回数据有异常，0数据验证错误，1表示正常，2其他错误
 	private int exceptionNo = 1;
+	/*判断listview中当前第几个item*/
+	private int lastItem = 0, spnCount = 0, index = 1;
+	/*判断是否可更新*/
+	private boolean isRefreshFoot = false;
+	/*判断是否正在更新*/
+	private boolean isRefreshFootIng = false;
+	/* 是否是最后一个Item*/
+	private boolean isLastItem = false;
+	private int v = 0;
+	//判断是否更新服务器数据
+	private boolean isUpdate = true;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +81,9 @@ public class EventsFragment extends Fragment {
 		
 		pbWait = (ProgressBar) getActivity().findViewById(R.id.pbWait);
 		lvEvents = (ListView) getActivity().findViewById(R.id.lvEvents);
+		footView = LayoutInflater.from(getActivity()).inflate(R.layout.list_foot, null);
+		loading_msg = (TextView) footView.findViewById(R.id.loading_msg);
+		lvEvents.addFooterView(footView);
 		
 		asy = "0";
 		asyncTaskHelper = new AsyncTaskHelper();
@@ -99,7 +118,15 @@ public class EventsFragment extends Fragment {
 			if (asy.equals("0")) {
 				try {
 					getEvents();
-					exceptionNo = 1;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					exceptionNo = -2;
+				}
+			}
+			if (asy.equals("1")) {
+				try {
+					getEvents();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -125,6 +152,27 @@ public class EventsFragment extends Fragment {
 					lvEvents.setSelector(new ColorDrawable(Color.TRANSPARENT));
 					eventsAdapter = new EventsAdapter(getActivity(), list);
 					lvEvents.setAdapter(eventsAdapter);
+					lvEvents.setOnScrollListener(new EventsScroll());
+					break;
+				case 2:
+					Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
+					footView.setVisibility(View.GONE);
+					break;
+				}
+			}
+			if (asy.equals("1")) {
+				switch (exceptionNo) {
+				case -2:
+					Toast.makeText(getActivity(), "亲，没有访问到数据", Toast.LENGTH_SHORT).show();
+					break;
+				case 1:
+					eventsAdapter.notifyDataSetChanged();
+					isRefreshFootIng = false;
+					footView.setVisibility(View.GONE);
+					break;
+				case 2:
+					Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
+					footView.setVisibility(View.GONE);
 					break;
 				}
 			}
@@ -133,8 +181,65 @@ public class EventsFragment extends Fragment {
 		
 	}
 	
+	class EventsScroll implements OnScrollListener{
+
+		@Override
+		public void onScroll(AbsListView view, int firstVisibleItem,
+				int visibleItemCount, int totalItemCount) {
+			// TODO Auto-generated method stub
+			try {
+				lastItem = firstVisibleItem + visibleItemCount;
+				//判断 最后一条开始显示，那么加载新数据 
+				if (lastItem == totalItemCount) {
+					isRefreshFoot = true;
+				}else {
+					isRefreshFoot = false;
+				}
+				v = visibleItemCount;
+			} catch (Exception e) {
+				// TODO: handle exception
+				Toast.makeText(getActivity(), "亲，出错啦", Toast.LENGTH_SHORT).show();
+			}
+		}
+
+		@Override
+		public void onScrollStateChanged(AbsListView view, int scrollState) {
+			// TODO Auto-generated method stub
+			try {
+				if (scrollState == OnScrollListener.SCROLL_STATE_IDLE && isRefreshFoot) {
+					if (isRefreshFootIng == false) {
+						footView.setVisibility(view.VISIBLE);
+						asy = "1";
+						asyncTaskHelper = new AsyncTaskHelper();
+						asyncTaskHelper.execute(asy);
+					}else {
+//						Toast.makeText(HotelActivity.this, "内容正在加载", Toast.LENGTH_SHORT).show();
+					}
+					isRefreshFootIng = true;
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				Toast.makeText(getActivity(), "亲，出错啦", Toast.LENGTH_SHORT).show();
+			}
+		}
+		
+	}
+	
 	public void getEvents() throws Exception {
-		list_events = getWebService.getEventsList();
+		if (isUpdate == true) {
+			getEventsList();
+		}else {
+			exceptionNo = 2;
+		}
+	}
+	
+	public void getEventsList() throws Exception {
+		list_events = getWebService.getEventsList(index, 3);
+		if (list_events.size() < 10) {
+			isUpdate = false;
+		}else {
+			isUpdate = true;
+		}
 		for (int i = 0; i < list_events.size(); i++) {
 			map = new HashMap<String, Object>();
 			map.put("LU_pic", list_events.get(i).getLU_pic());
@@ -145,6 +250,8 @@ public class EventsFragment extends Fragment {
 			map.put("La_explain", list_events.get(i).getLa_explain());
 			list.add(map);
 		}
+		index++;
+		exceptionNo = 1;
 	}
 
 }

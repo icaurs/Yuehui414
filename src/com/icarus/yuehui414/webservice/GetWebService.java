@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.icarus.yuehui414.application.Appointment;
 import com.icarus.yuehui414.entity.EventsList;
 
 public class GetWebService {
@@ -36,8 +37,8 @@ public class GetWebService {
 //		return sellerDetail;
 //	}
 	
-	public List<EventsList> getEventsList() throws Exception {
-		String url = "http://www.yuehui414.com/webservice/actions/default.ashx?code=jintao65535_123&pageindex=1&sex=3";
+	public List<EventsList> getEventsList(int index, int sex) throws Exception {
+		String url = Appointment.url + "webservice/actions/default.ashx?code=jintao65535_123&pageindex=" + index + "&sex=" + sex;
 		String s = getTemplate().getForObject(url, String.class);
 		gson = new Gson();
 		list_events = new ArrayList<EventsList>();

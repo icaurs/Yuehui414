@@ -70,7 +70,6 @@ public class EventsAdapter extends BaseAdapter {
 		holder.tvLA_name.setTypeface(Typeface.DEFAULT_BOLD);
 		
 		String image = (String) list.get(position).get("LU_pic");
-		System.out.println(image);
 		if (!image.equals("") || image != null) {
 			finalBitmap.display(holder.ivLU_pic, Appointment.url + image);
 		}

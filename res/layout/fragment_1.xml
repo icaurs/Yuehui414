@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:divider="@color/no"
         android:dividerHeight="0dp"
+        android:cacheColorHint="#00000000"
         >
     </ListView>
 
