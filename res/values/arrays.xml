@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="nav_names">
+        <item>ArrayAdapter&lt;String&gt;</item>
+        <item>SimpleAdapter</item>
+        <item>ArrayAdapter&lt;Object&gt;</item>
+        <item>ImageAdapter</item>
+        <item>CursorAdapter</item>
+        <item>PagerAdapter</item>
+    </string-array>
+
+    <string-array name="nav_classes">
+        <!-- 
+        <item>com.ougu.ougugourmet.ArrayAdapterStringFragment</item>
+        <item>com.ougu.ougugourmet.SimpleAdapterFragment</item>
+        <item>com.ougu.ougugourmet.ArrayAdapterObjectFragment</item>
+        <item>com.ougu.ougugourmet.ArrayAdapterImageFragment</item>
+        <item>com.ougu.ougugourmet.CursorAdapterFragment</item>
+        <item>com.ougu.ougugourmet.ViewPagerFragment</item>
+         -->
+        <item>com.icarus.yuehui414.fragment.EventsFragment</item>
+        <item>com.icarus.yuehui414.fragment.Fragment2</item>
+        <item>com.icarus.yuehui414.fragment.Fragment3</item>
+    </string-array>
+
+</resources>
