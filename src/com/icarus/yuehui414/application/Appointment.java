@@ -1,6 +1,10 @@
 package com.icarus.yuehui414.application;
 
+import java.util.List;
+import java.util.Map;
+
 import com.icarus.yuehui414.R;
+import com.icarus.yuehui414.entity.EventsList;
 
 import android.app.Application;
 
@@ -13,6 +17,8 @@ public class Appointment extends Application {
 	public static int[] main_icon = {
 		R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher
 	};
+	
+	public static String url = "http://www.yuehui414.com/";
 
 	@Override
 	public void onCreate() {

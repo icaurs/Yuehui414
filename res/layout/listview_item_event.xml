@@ -25,25 +25,28 @@
             android:background="@drawable/image_bg_style" />
 
         <TextView
-            android:id="@+id/tvLU_NickName"
+            android:id="@+id/tvLA_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ivLU_pic"
             android:layout_toRightOf="@+id/ivLU_pic"
-            android:text="昵称"
+            android:maxLines="1"
+	        android:ellipsize="end"
+            android:text="活动标题"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
-            android:id="@+id/tvAddress"
+            android:id="@+id/tvLU_Address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/ivLU_pic"
             android:layout_toRightOf="@+id/ivLU_pic"
+            android:textColor="@color/text_gray"
             android:text="地址"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
-            android:id="@+id/tvDetail"
+            android:id="@+id/tvLU_Detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/ivLU_pic"

@@ -6,12 +6,13 @@
     <string name="hello_world">Hello world!</string>
     
     <color name="white">#FFFFFF</color>
-    <color name="bg">#DDDDDD</color>
+    <color name="bg">#E5E5E5</color>
     <color name="menu_bg">#F3F3F3</color>
     <color name="menu_title">#303030</color>
     <color name="no">#00000000</color>
     <color name="click">#99D6EB</color>
     <color name="image_bg">#C0C0C0</color>
     <color name="menu_user_bg">#009BBF</color>
+    <color name="text_gray">#AEAEAE</color>
 
 </resources>

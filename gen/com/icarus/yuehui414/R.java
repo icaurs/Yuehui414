@@ -28,6 +28,7 @@ public final class R {
         public static final int menu_title=0x7f080003;
         public static final int menu_user_bg=0x7f080007;
         public static final int no=0x7f080004;
+        public static final int text_gray=0x7f080008;
         public static final int white=0x7f080000;
     }
     public static final class dimen {
@@ -49,7 +50,7 @@ public final class R {
         public static final int no_button_style=0x7f020005;
     }
     public static final class id {
-        public static final int action_settings=0x7f0b0012;
+        public static final int action_settings=0x7f0b0013;
         public static final int drawer=0x7f0b0002;
         public static final int drawer_layout=0x7f0b0000;
         public static final int ivIcon=0x7f0b000d;
@@ -61,10 +62,11 @@ public final class R {
         public static final int layUser=0x7f0b0005;
         public static final int lvEvents=0x7f0b0003;
         public static final int main=0x7f0b0001;
+        public static final int pbWait=0x7f0b0012;
         public static final int textView1=0x7f0b0004;
-        public static final int tvAddress=0x7f0b000a;
-        public static final int tvDetail=0x7f0b000b;
-        public static final int tvLU_NickName=0x7f0b0009;
+        public static final int tvLA_name=0x7f0b0009;
+        public static final int tvLU_Address=0x7f0b000a;
+        public static final int tvLU_Detail=0x7f0b000b;
         public static final int tvMenu=0x7f0b000e;
         public static final int tvTitle=0x7f0b0010;
         public static final int tvUser=0x7f0b0007;
