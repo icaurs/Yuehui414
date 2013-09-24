@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import com.icarus.yuehui414.R;
 import com.icarus.yuehui414.adapter.EventsAdapter;
@@ -18,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -164,65 +166,98 @@ public class EventsFragment extends Fragment {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			if (asy.equals("0")) {
-				switch (exceptionNo) {
-				case -2:
-					Toast.makeText(getActivity(), "亲，没有访问到数据", Toast.LENGTH_SHORT).show();
-					break;
-				case 1:
-					spnSex.setVisibility(View.VISIBLE);
-					ArrayAdapter<String> disAdapter = new ArrayAdapter<String>(getActivity(), R.layout.myspinner, list_sex);
-					disAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-					spnSex.setAdapter(disAdapter);
-					spnSex.setSelection(spn_index);
-					spnSex.setOnItemSelectedListener(new SexItemSelect());
-					
-					lvEvents.setSelector(new ColorDrawable(Color.TRANSPARENT));
-					eventsAdapter = new EventsAdapter(getActivity(), list);
-					lvEvents.setAdapter(eventsAdapter);
-					lvEvents.setOnScrollListener(new EventsScroll());
-					break;
-				case 2:
-					Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
-					footView.setVisibility(View.GONE);
-					break;
+				try {
+					asy0();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					Toast.makeText(getActivity(), "亲，出错啦", Toast.LENGTH_SHORT).show();
+					Log.e("EventsFragment", "listview error: " + e);
 				}
 			}
 			if (asy.equals("1")) {
-				switch (exceptionNo) {
-				case -2:
-					Toast.makeText(getActivity(), "亲，没有访问到数据", Toast.LENGTH_SHORT).show();
-					break;
-				case 1:
-					eventsAdapter.notifyDataSetChanged();
-					isRefreshFootIng = false;
-					footView.setVisibility(View.GONE);
-					break;
-				case 2:
-					Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
-					footView.setVisibility(View.GONE);
-					break;
+				try {
+					asy1();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					Toast.makeText(getActivity(), "亲，出错啦", Toast.LENGTH_SHORT).show();
+					Log.e("EventsFragment", "listview error: " + e);
 				}
 			}
 			if (asy.equals("2")) {
-				switch (exceptionNo) {
-				case -2:
-					Toast.makeText(getActivity(), "亲，没有访问到数据", Toast.LENGTH_SHORT).show();
-					break;
-				case 1:
-					lvEvents.setSelector(new ColorDrawable(Color.TRANSPARENT));
-					eventsAdapter = new EventsAdapter(getActivity(), list);
-					lvEvents.setAdapter(eventsAdapter);
-					lvEvents.setOnScrollListener(new EventsScroll());
-					break;
-				case 2:
-					Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
-					footView.setVisibility(View.GONE);
-					break;
+				try {
+					asy2();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					Toast.makeText(getActivity(), "亲，出错啦", Toast.LENGTH_SHORT).show();
+					Log.e("EventsFragment", "listview error: " + e);
 				}
 			}
 			pbWait.setVisibility(View.GONE);
 		}
 		
+	}
+	
+	public void asy0() throws Exception {
+		switch (exceptionNo) {
+		case -2:
+			Toast.makeText(getActivity(), "亲，没有访问到数据", Toast.LENGTH_SHORT).show();
+			break;
+		case 1:
+			spnSex.setVisibility(View.VISIBLE);
+			ArrayAdapter<String> disAdapter = new ArrayAdapter<String>(getActivity(), R.layout.myspinner, list_sex);
+			disAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			spnSex.setAdapter(disAdapter);
+			spnSex.setSelection(spn_index);
+			spnSex.setOnItemSelectedListener(new SexItemSelect());
+			
+			lvEvents.setSelector(new ColorDrawable(Color.TRANSPARENT));
+			eventsAdapter = new EventsAdapter(getActivity(), list);
+			lvEvents.setAdapter(eventsAdapter);
+			lvEvents.setOnScrollListener(new EventsScroll());
+			break;
+		case 2:
+			Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
+			footView.setVisibility(View.GONE);
+			break;
+		}
+	}
+	
+	public void asy1() throws Exception {
+		switch (exceptionNo) {
+		case -2:
+			Toast.makeText(getActivity(), "亲，没有访问到数据", Toast.LENGTH_SHORT).show();
+			break;
+		case 1:
+			eventsAdapter.notifyDataSetChanged();
+			isRefreshFootIng = false;
+			footView.setVisibility(View.GONE);
+			break;
+		case 2:
+			Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
+			footView.setVisibility(View.GONE);
+			break;
+		}
+	}
+
+	public void asy2() throws Exception {
+		switch (exceptionNo) {
+		case -2:
+			Toast.makeText(getActivity(), "亲，没有访问到数据", Toast.LENGTH_SHORT).show();
+			break;
+		case 1:
+			lvEvents.setSelector(new ColorDrawable(Color.TRANSPARENT));
+			eventsAdapter = new EventsAdapter(getActivity(), list);
+			lvEvents.setAdapter(eventsAdapter);
+			lvEvents.setOnScrollListener(new EventsScroll());
+			break;
+		case 2:
+			Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
+			footView.setVisibility(View.GONE);
+			break;
+		}
 	}
 	
 	class SexItemSelect implements OnItemSelectedListener{
