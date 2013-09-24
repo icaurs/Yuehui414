@@ -6,13 +6,15 @@
     >
 
     <RelativeLayout
+        android:id="@+id/layoutEvent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/list_button_style"
+        android:background="@drawable/list_click_style"
+        android:descendantFocusability="blocksDescendants"
         >
 
         <ImageView
@@ -51,9 +53,40 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/ivLU_pic"
             android:layout_below="@+id/ivLU_pic"
-            android:layout_marginTop="0dp"
             android:text="活动内容"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvLU_Detail"
+            >
+
+            <Button
+                android:id="@+id/btnJoin"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:text="参　加"
+                android:background="@drawable/list_button_style"
+                />
+
+            <Button
+                android:id="@+id/btnComment"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:text="留　言"
+                android:background="@drawable/list_button_style"
+                />
+
+        </LinearLayout>
 
     </RelativeLayout>
     

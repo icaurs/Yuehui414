@@ -24,6 +24,9 @@ import android.view.ViewGroup;
 import android.webkit.WebView.FindListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -47,8 +50,9 @@ public class EventsFragment extends Fragment {
 	private AsyncTaskHelper asyncTaskHelper;
 	//-2表示访问webservice有异常，-1表示返回数据有异常，0数据验证错误，1表示正常，2其他错误
 	private int exceptionNo = 1;
+	private List<String> list_sex;
 	/*判断listview中当前第几个item*/
-	private int lastItem = 0, spnCount = 0, index = 1;
+	private int lastItem = 0, spnCount = 0, index = 1, spn_index = 0, sex = 0;
 	/*判断是否可更新*/
 	private boolean isRefreshFoot = false;
 	/*判断是否正在更新*/
@@ -74,6 +78,7 @@ public class EventsFragment extends Fragment {
 		list = new ArrayList<Map<String,Object>>();
 		getWebService = new GetWebService();
 		list_events = new ArrayList<EventsList>();
+		list_sex = new ArrayList<String>();
 		
 		appointment = (Appointment) getActivity().getApplication();
 		
@@ -87,6 +92,8 @@ public class EventsFragment extends Fragment {
 		footView = LayoutInflater.from(getActivity()).inflate(R.layout.list_foot, null);
 		loading_msg = (TextView) footView.findViewById(R.id.loading_msg);
 		lvEvents.addFooterView(footView);
+		
+		spnSex.setVisibility(View.GONE);
 		
 		asy = "0";
 		asyncTaskHelper = new AsyncTaskHelper();
@@ -119,6 +126,7 @@ public class EventsFragment extends Fragment {
 			// TODO Auto-generated method stub
 			asy = params[0];
 			if (asy.equals("0")) {
+				getSexList();
 				try {
 					getEvents();
 				} catch (Exception e) {
@@ -128,6 +136,15 @@ public class EventsFragment extends Fragment {
 				}
 			}
 			if (asy.equals("1")) {
+				try {
+					getEvents();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					exceptionNo = -2;
+				}
+			}
+			if (asy.equals("2")) {
 				try {
 					getEvents();
 				} catch (Exception e) {
@@ -152,6 +169,13 @@ public class EventsFragment extends Fragment {
 					Toast.makeText(getActivity(), "亲，没有访问到数据", Toast.LENGTH_SHORT).show();
 					break;
 				case 1:
+					spnSex.setVisibility(View.VISIBLE);
+					ArrayAdapter<String> disAdapter = new ArrayAdapter<String>(getActivity(), R.layout.myspinner, list_sex);
+					disAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					spnSex.setAdapter(disAdapter);
+					spnSex.setSelection(spn_index);
+					spnSex.setOnItemSelectedListener(new SexItemSelect());
+					
 					lvEvents.setSelector(new ColorDrawable(Color.TRANSPARENT));
 					eventsAdapter = new EventsAdapter(getActivity(), list);
 					lvEvents.setAdapter(eventsAdapter);
@@ -179,7 +203,69 @@ public class EventsFragment extends Fragment {
 					break;
 				}
 			}
+			if (asy.equals("2")) {
+				switch (exceptionNo) {
+				case -2:
+					Toast.makeText(getActivity(), "亲，没有访问到数据", Toast.LENGTH_SHORT).show();
+					break;
+				case 1:
+					lvEvents.setSelector(new ColorDrawable(Color.TRANSPARENT));
+					eventsAdapter = new EventsAdapter(getActivity(), list);
+					lvEvents.setAdapter(eventsAdapter);
+					lvEvents.setOnScrollListener(new EventsScroll());
+					break;
+				case 2:
+					Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
+					footView.setVisibility(View.GONE);
+					break;
+				}
+			}
 			pbWait.setVisibility(View.GONE);
+		}
+		
+	}
+	
+	class SexItemSelect implements OnItemSelectedListener{
+
+		@Override
+		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			// TODO Auto-generated method stub
+			if (spnCount == 1) {
+				try {
+					switch (arg2) {
+					case 0:
+						sex = 0;
+						break;
+					case 1:
+						sex = 1;
+						break;
+					case 2:
+						sex = 3;
+						break;
+					}
+					spn_index = arg2;
+					index = 1;
+					isRefreshFootIng = false;
+					isUpdate = true;
+					list.removeAll(list);
+					eventsAdapter.notifyDataSetChanged();
+					footView.setVisibility(View.VISIBLE);
+					asy = "2";
+					asyncTaskHelper = new AsyncTaskHelper();
+					asyncTaskHelper.execute(asy);
+				} catch (Exception e) {
+					// TODO: handle exception
+					Toast.makeText(getActivity(), "亲，没有访问到数据", Toast.LENGTH_SHORT).show();
+				}
+			}
+			spnCount = 1;
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> arg0) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}
@@ -237,7 +323,7 @@ public class EventsFragment extends Fragment {
 	}
 	
 	public void getEventsList() throws Exception {
-		list_events = getWebService.getEventsList(index, 3);
+		list_events = getWebService.getEventsList(index, sex);
 		if (list_events.size() < 10) {
 			isUpdate = false;
 		}else {
@@ -255,6 +341,12 @@ public class EventsFragment extends Fragment {
 		}
 		index++;
 		exceptionNo = 1;
+	}
+	
+	public void getSexList() {
+		for (int i = 0; i < appointment.sex.length; i++) {
+			list_sex.add(appointment.sex[i]);
+		}
 	}
 
 }

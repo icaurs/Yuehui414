@@ -14,6 +14,10 @@ public class Appointment extends Application {
 		"导航菜单1", "导航菜单2", "导航菜单3"
 	};
 	
+	public static String[] sex = {
+		"美女", "帅哥", "全部"
+	};
+	
 	public static int[] main_icon = {
 		R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher
 	};

@@ -13,6 +13,7 @@
     <color name="menu_title">#303030</color>
     <color name="no">#00000000</color>
     <color name="click">#99D6EB</color>
+    <color name="list_button_click">#777777</color>
     <color name="image_bg">#C0C0C0</color>
     <color name="menu_user_bg">#009BBF</color>
     <color name="text_gray">#AEAEAE</color>

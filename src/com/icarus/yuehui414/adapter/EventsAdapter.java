@@ -78,7 +78,13 @@ public class EventsAdapter extends BaseAdapter {
 		String LA_city = (String) list.get(position).get("LA_city");
 		String LA_area = (String) list.get(position).get("LA_area");
 		holder.tvLU_Address.setText(LA_province + LA_city + LA_area);
-		holder.tvLU_Detail.setText((String) list.get(position).get("La_explain"));
+		String la_explain = (String) list.get(position).get("La_explain");
+		if (la_explain.equals("")) {
+			holder.tvLU_Detail.setVisibility(View.GONE);
+		}else {
+			holder.tvLU_Detail.setVisibility(View.VISIBLE);
+			holder.tvLU_Detail.setText(la_explain);
+		}
 		
 		return convertView;
 	}
