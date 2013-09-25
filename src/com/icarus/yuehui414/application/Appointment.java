@@ -23,6 +23,26 @@ public class Appointment extends Application {
 	};
 	
 	public static String url = "http://www.yuehui414.com/";
+	
+	private String LA_Id;
+	
+	private EventsList eventsList;
+	
+	public String getLA_Id() {
+		return LA_Id;
+	}
+
+	public void setLA_Id(String lA_Id) {
+		LA_Id = lA_Id;
+	}
+
+	public EventsList getEventsList() {
+		return eventsList;
+	}
+
+	public void setEventsList(EventsList eventsList) {
+		this.eventsList = eventsList;
+	}
 
 	@Override
 	public void onCreate() {

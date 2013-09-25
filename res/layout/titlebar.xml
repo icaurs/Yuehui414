@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/ivLeft"
+        android:visibility="gone"
         />
 
     <TextView
@@ -32,6 +33,7 @@
         android:textColor="@color/white"
         android:textSize="18dip"
         android:text="@string/app_name"
+        android:visibility="gone"
         />
     
     <ImageView
@@ -45,15 +47,35 @@
         android:visibility="visible"
         />
 
-    <ProgressBar
-        android:id="@+id/pbWait"
-        style="?android:attr/progressBarStyleSmall"
+    <FrameLayout 
+        android:id="@+id/layWait"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="60dp"
-        android:visibility="gone"
-        />
+        android:layout_marginRight="50dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@drawable/image_wait_style"
+        >
+        <ProgressBar
+	        android:id="@+id/pbWait"
+	        style="?android:attr/progressBarStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:visibility="gone"
+	        />
+	
+	    <ImageView
+	        android:id="@+id/ivWait"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:scaleType="centerCrop"
+	        android:src="@android:drawable/stat_notify_sync"
+	        android:visibility="gone"
+	        />
+    </FrameLayout>
 
 </RelativeLayout>

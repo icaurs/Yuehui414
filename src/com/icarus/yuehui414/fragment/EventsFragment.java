@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.icarus.yuehui414.EventsActivity;
 import com.icarus.yuehui414.R;
 import com.icarus.yuehui414.adapter.EventsAdapter;
 import com.icarus.yuehui414.application.Appointment;
 import com.icarus.yuehui414.entity.EventsList;
 import com.icarus.yuehui414.webservice.GetWebService;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.opengl.Visibility;
@@ -23,12 +25,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.webkit.WebView.FindListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -37,6 +43,8 @@ import android.widget.Toast;
 
 public class EventsFragment extends Fragment {
 	
+	private FrameLayout layWait;
+	private ImageView ivWait;
 	private ProgressBar pbWait;
 	private ListView lvEvents;
 	private View footView;
@@ -64,6 +72,7 @@ public class EventsFragment extends Fragment {
 	private int v = 0;
 	//判断是否更新服务器数据
 	private boolean isUpdate = true;
+	private Intent intent;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,13 +98,13 @@ public class EventsFragment extends Fragment {
 		}
 		
 		spnSex = (Spinner) getActivity().findViewById(R.id.spnSex);
+		layWait = (FrameLayout) getActivity().findViewById(R.id.layWait);
+		ivWait = (ImageView) getActivity().findViewById(R.id.ivWait);
 		pbWait = (ProgressBar) getActivity().findViewById(R.id.pbWait);
 		lvEvents = (ListView) getActivity().findViewById(R.id.lvEvents);
 		footView = LayoutInflater.from(getActivity()).inflate(R.layout.list_foot, null);
 		loading_msg = (TextView) footView.findViewById(R.id.loading_msg);
 		lvEvents.addFooterView(footView);
-		
-		spnSex.setVisibility(View.GONE);
 		
 		asy = "0";
 		asyncTaskHelper = new AsyncTaskHelper();
@@ -120,6 +129,7 @@ public class EventsFragment extends Fragment {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
+			ivWait.setVisibility(View.GONE);
 			pbWait.setVisibility(View.VISIBLE);
 			footView.setVisibility(View.VISIBLE);
 		}
@@ -198,6 +208,7 @@ public class EventsFragment extends Fragment {
 			}
 			pbWait.setVisibility(View.GONE);
 			footView.setVisibility(View.GONE);
+			ivWait.setVisibility(View.VISIBLE);
 		}
 		
 	}
@@ -219,6 +230,9 @@ public class EventsFragment extends Fragment {
 			eventsAdapter = new EventsAdapter(getActivity(), list);
 			lvEvents.setAdapter(eventsAdapter);
 			lvEvents.setOnScrollListener(new EventsScroll());
+			lvEvents.setOnItemClickListener(new EventsItemClick());
+			
+			layWait.setOnClickListener(new UpdateEvents());
 			break;
 		case 2:
 			Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
@@ -233,12 +247,12 @@ public class EventsFragment extends Fragment {
 			break;
 		case 1:
 			eventsAdapter.notifyDataSetChanged();
-			isRefreshFootIng = false;
 			break;
 		case 2:
 			Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
 			break;
 		}
+		isRefreshFootIng = false;
 	}
 
 	public void asy2() throws Exception {
@@ -256,6 +270,7 @@ public class EventsFragment extends Fragment {
 			Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
 			break;
 		}
+		isRefreshFootIng = false;
 	}
 	
 	class SexItemSelect implements OnItemSelectedListener{
@@ -266,26 +281,29 @@ public class EventsFragment extends Fragment {
 			// TODO Auto-generated method stub
 			if (spnCount == 1) {
 				try {
-					switch (arg2) {
-					case 0:
-						sex = 0;
-						break;
-					case 1:
-						sex = 1;
-						break;
-					case 2:
-						sex = 3;
-						break;
+					if (isRefreshFootIng == false) {
+						switch (arg2) {
+						case 0:
+							sex = 0;
+							break;
+						case 1:
+							sex = 1;
+							break;
+						case 2:
+							sex = 3;
+							break;
+						}
+						spn_index = arg2;
+						index = 1;
+						isRefreshFootIng = false;
+						isUpdate = true;
+						list.removeAll(list);
+//						eventsAdapter.notifyDataSetChanged();
+						asy = "2";
+						asyncTaskHelper = new AsyncTaskHelper();
+						asyncTaskHelper.execute(asy);
 					}
-					spn_index = arg2;
-					index = 1;
-					isRefreshFootIng = false;
-					isUpdate = true;
-					list.removeAll(list);
-					eventsAdapter.notifyDataSetChanged();
-					asy = "2";
-					asyncTaskHelper = new AsyncTaskHelper();
-					asyncTaskHelper.execute(asy);
+					isRefreshFootIng = true;
 				} catch (Exception e) {
 					// TODO: handle exception
 					Toast.makeText(getActivity(), "亲，没有访问到数据", Toast.LENGTH_SHORT).show();
@@ -345,6 +363,39 @@ public class EventsFragment extends Fragment {
 		
 	}
 	
+	class UpdateEvents implements OnClickListener{
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			if (isRefreshFootIng == false) {
+				index = 1;
+				isRefreshFootIng = false;
+				isUpdate = true;
+				list.removeAll(list);
+//				eventsAdapter.notifyDataSetChanged();
+				asy = "2";
+				asyncTaskHelper = new AsyncTaskHelper();
+				asyncTaskHelper.execute(asy);
+			}
+			isRefreshFootIng = true;
+		}
+		
+	}
+	
+	class EventsItemClick implements OnItemClickListener{
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			// TODO Auto-generated method stub
+			intent = new Intent(getActivity(), EventsActivity.class);
+			appointment.setLA_Id((String) list.get(arg2).get("LA_Id"));
+			startActivity(intent);
+		}
+		
+	}
+	
 	public void getEvents() throws Exception {
 		if (isUpdate == true) {
 			getEventsList();
@@ -362,6 +413,7 @@ public class EventsFragment extends Fragment {
 		}
 		for (int i = 0; i < list_events.size(); i++) {
 			map = new HashMap<String, Object>();
+			map.put("LA_Id", list_events.get(i).getLA_Id());
 			map.put("LU_pic", list_events.get(i).getLU_pic());
 			map.put("LA_name", list_events.get(i).getLA_name());
 			map.put("LA_province", list_events.get(i).getLA_province());

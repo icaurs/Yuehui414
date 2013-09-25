@@ -112,7 +112,7 @@ public class MainActivity extends FragmentActivity {
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 			finish();
-			overridePendingTransition(R.anim.zoom_enter_2, R.anim.push_right_out);
+//			overridePendingTransition(R.anim.zoom_enter_2, R.anim.push_right_out);
 			return false;
 		}
 		return false;

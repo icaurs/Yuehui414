@@ -1,14 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     >
 
     <RelativeLayout
         android:id="@+id/layoutEvent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ivLU_pic"
             android:layout_toRightOf="@+id/ivLU_pic"
+            android:layout_marginRight="10dp"
             android:maxLines="1"
 	        android:ellipsize="end"
             android:text="活动标题"
@@ -42,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/ivLU_pic"
             android:layout_toRightOf="@+id/ivLU_pic"
+            android:layout_marginRight="10dp"
             android:textColor="@color/text_gray"
             android:text="地址"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -52,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/ivLU_pic"
             android:layout_below="@+id/ivLU_pic"
+            android:layout_marginRight="10dp"
             android:text="活动内容"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
