@@ -71,11 +71,11 @@ public final class R {
         public static final int list_foot_progress=0x01010000;
         public static final int loading_more=0x7f0b0005;
         public static final int loading_msg=0x7f0b0006;
-        public static final int lvEvents=0x7f0b0003;
+        public static final int lvEvents=0x7f0b0004;
         public static final int main=0x7f0b0001;
         public static final int pbWait=0x7f0b0018;
         public static final int spnSex=0x7f0b0015;
-        public static final int textView1=0x7f0b0004;
+        public static final int textView1=0x7f0b0003;
         public static final int tvLA_name=0x7f0b000c;
         public static final int tvLU_Address=0x7f0b000d;
         public static final int tvLU_Detail=0x7f0b000e;
@@ -86,9 +86,9 @@ public final class R {
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int activity_welcome=0x7f030001;
-        public static final int fragment_1=0x7f030002;
-        public static final int fragment_2=0x7f030003;
-        public static final int fragment_3=0x7f030004;
+        public static final int fragment_2=0x7f030002;
+        public static final int fragment_3=0x7f030003;
+        public static final int fragment_events=0x7f030004;
         public static final int list_foot=0x7f030005;
         public static final int listview_head_main=0x7f030006;
         public static final int listview_item_event=0x7f030007;

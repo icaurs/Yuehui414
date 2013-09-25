@@ -69,7 +69,7 @@ public class EventsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		return inflater.inflate(R.layout.fragment_1, container, false);
+		return inflater.inflate(R.layout.fragment_events, container, false);
 	}
 
 	@Override
@@ -121,6 +121,7 @@ public class EventsFragment extends Fragment {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
 			pbWait.setVisibility(View.VISIBLE);
+			footView.setVisibility(View.VISIBLE);
 		}
 
 		@Override
@@ -196,6 +197,7 @@ public class EventsFragment extends Fragment {
 				}
 			}
 			pbWait.setVisibility(View.GONE);
+			footView.setVisibility(View.GONE);
 		}
 		
 	}
@@ -220,7 +222,6 @@ public class EventsFragment extends Fragment {
 			break;
 		case 2:
 			Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
-			footView.setVisibility(View.GONE);
 			break;
 		}
 	}
@@ -233,11 +234,9 @@ public class EventsFragment extends Fragment {
 		case 1:
 			eventsAdapter.notifyDataSetChanged();
 			isRefreshFootIng = false;
-			footView.setVisibility(View.GONE);
 			break;
 		case 2:
 			Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
-			footView.setVisibility(View.GONE);
 			break;
 		}
 	}
@@ -255,7 +254,6 @@ public class EventsFragment extends Fragment {
 			break;
 		case 2:
 			Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
-			footView.setVisibility(View.GONE);
 			break;
 		}
 	}
@@ -285,7 +283,6 @@ public class EventsFragment extends Fragment {
 					isUpdate = true;
 					list.removeAll(list);
 					eventsAdapter.notifyDataSetChanged();
-					footView.setVisibility(View.VISIBLE);
 					asy = "2";
 					asyncTaskHelper = new AsyncTaskHelper();
 					asyncTaskHelper.execute(asy);
@@ -332,7 +329,6 @@ public class EventsFragment extends Fragment {
 			try {
 				if (scrollState == OnScrollListener.SCROLL_STATE_IDLE && isRefreshFoot) {
 					if (isRefreshFootIng == false) {
-						footView.setVisibility(view.VISIBLE);
 						asy = "1";
 						asyncTaskHelper = new AsyncTaskHelper();
 						asyncTaskHelper.execute(asy);
