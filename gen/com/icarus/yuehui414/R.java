@@ -57,11 +57,12 @@ public final class R {
         public static final int shadow_list=0x7f02000a;
     }
     public static final class id {
-        public static final int action_settings=0x7f0b002a;
+        public static final int action_settings=0x7f0b002b;
         public static final int btnComment=0x7f0b001c;
         public static final int btnJoin=0x7f0b001b;
         public static final int drawer=0x7f0b0003;
         public static final int drawer_layout=0x7f0b0001;
+        public static final int item1=0x7f0b002a;
         public static final int ivIcon=0x7f0b0021;
         public static final int ivLU_pic=0x7f0b0017;
         public static final int ivLeft=0x7f0b0023;
@@ -103,24 +104,26 @@ public final class R {
         public static final int tvla_type=0x7f0b0006;
     }
     public static final class layout {
-        public static final int activity_events=0x7f030000;
-        public static final int activity_main=0x7f030001;
-        public static final int activity_welcome=0x7f030002;
-        public static final int events_comment=0x7f030003;
-        public static final int events_detail=0x7f030004;
-        public static final int fragment_2=0x7f030005;
-        public static final int fragment_3=0x7f030006;
-        public static final int fragment_events=0x7f030007;
-        public static final int list_foot=0x7f030008;
-        public static final int listview_head_main=0x7f030009;
-        public static final int listview_item_event=0x7f03000a;
-        public static final int listview_item_event_comment=0x7f03000b;
-        public static final int listview_item_main=0x7f03000c;
-        public static final int myspinner=0x7f03000d;
-        public static final int titlebar=0x7f03000e;
+        public static final int activity_comment=0x7f030000;
+        public static final int activity_events=0x7f030001;
+        public static final int activity_main=0x7f030002;
+        public static final int activity_welcome=0x7f030003;
+        public static final int events_comment=0x7f030004;
+        public static final int events_detail=0x7f030005;
+        public static final int fragment_2=0x7f030006;
+        public static final int fragment_3=0x7f030007;
+        public static final int fragment_events=0x7f030008;
+        public static final int list_foot=0x7f030009;
+        public static final int listview_head_main=0x7f03000a;
+        public static final int listview_item_event=0x7f03000b;
+        public static final int listview_item_event_comment=0x7f03000c;
+        public static final int listview_item_main=0x7f03000d;
+        public static final int myspinner=0x7f03000e;
+        public static final int titlebar=0x7f03000f;
     }
     public static final class menu {
-        public static final int welcome=0x7f0a0000;
+        public static final int menu=0x7f0a0000;
+        public static final int welcome=0x7f0a0001;
     }
     public static final class string {
         public static final int action_settings=0x7f070001;

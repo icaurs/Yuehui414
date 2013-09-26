@@ -5,16 +5,21 @@ import java.util.Map;
 
 import net.tsz.afinal.FinalBitmap;
 
+import com.icarus.yuehui414.CommentActivity;
 import com.icarus.yuehui414.R;
 import com.icarus.yuehui414.application.Appointment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.text.TextUtils.TruncateAt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -26,6 +31,8 @@ public class EventsAdapter extends BaseAdapter {
 	private List<Map<String, Object>> list;
 	private LayoutInflater mInflater;
 	private FinalBitmap finalBitmap;
+	private Intent intent;
+	private Bundle bundle;
 	
 	public EventsAdapter(Context context, List<Map<String, Object>> list) {
 		this.context = context;
@@ -63,6 +70,8 @@ public class EventsAdapter extends BaseAdapter {
 			holder.tvLA_name = holder.getLA_name();
 			holder.tvLU_Address = holder.getLU_Address();
 			holder.tvLU_Detail = holder.getLU_Detail();
+			holder.btnJoin = holder.getJoin();
+			holder.btnComment = holder.getComment();
 			convertView.setTag(holder);
 		}else {
 			holder = (ViewHolder) convertView.getTag();
@@ -89,13 +98,27 @@ public class EventsAdapter extends BaseAdapter {
 			holder.tvLU_Detail.setText(la_explain);
 		}
 		
+		holder.btnComment.setOnClickListener(new CommentClick());
+		
 		return convertView;
+	}
+	
+	class CommentClick implements OnClickListener{
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			intent = new Intent(context, CommentActivity.class);
+			context.startActivity(intent);
+		}
+		
 	}
 	
 	public class ViewHolder{
 		private View convertView;
 		private ImageView ivLU_pic;
 		private TextView tvLA_name, tvLU_Address, tvLU_Detail;
+		private Button btnJoin, btnComment;
 		
 		public ViewHolder(View convertView){
 			this.convertView = convertView;
@@ -127,6 +150,20 @@ public class EventsAdapter extends BaseAdapter {
 				tvLU_Detail = (TextView) convertView.findViewById(R.id.tvLU_Detail);
 			}
 			return tvLU_Detail;
+		}
+		
+		public Button getJoin() {
+			if (btnJoin == null) {
+				btnJoin = (Button) convertView.findViewById(R.id.btnJoin);
+			}
+			return btnJoin;
+		}
+		
+		public Button getComment() {
+			if (btnComment == null) {
+				btnComment = (Button) convertView.findViewById(R.id.btnComment);
+			}
+			return btnComment;
 		}
 		
 	}
