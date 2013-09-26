@@ -6,18 +6,13 @@ import java.util.Map;
 import net.tsz.afinal.FinalBitmap;
 
 import com.icarus.yuehui414.R;
-import com.icarus.yuehui414.application.Appointment;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.text.TextUtils.TruncateAt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class EventsCommentAdapter extends BaseAdapter {
@@ -57,10 +52,12 @@ public class EventsCommentAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		ViewHolder holder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.listview_item_event, null);
+			convertView = mInflater.inflate(R.layout.listview_item_event_comment, null);
 			holder = new ViewHolder(convertView);
 			holder.ivLU_pic = holder.getLU_pic();
-			holder.tvLU_Detail = holder.getLU_Detail();
+			holder.tvName = holder.getName();
+			holder.tvTime = holder.getTime();
+			holder.tvComment = holder.getComment();
 			convertView.setTag(holder);
 		}else {
 			holder = (ViewHolder) convertView.getTag();
@@ -84,7 +81,7 @@ public class EventsCommentAdapter extends BaseAdapter {
 	public class ViewHolder{
 		private View convertView;
 		private ImageView ivLU_pic;
-		private TextView tvLU_Detail;
+		private TextView tvName, tvTime, tvComment;
 		
 		public ViewHolder(View convertView){
 			this.convertView = convertView;
@@ -97,11 +94,25 @@ public class EventsCommentAdapter extends BaseAdapter {
 			return ivLU_pic;
 		}
 		
-		public TextView getLU_Detail() {
-			if (tvLU_Detail == null) {
-				tvLU_Detail = (TextView) convertView.findViewById(R.id.tvLU_Detail);
+		public TextView getName() {
+			if (tvName == null) {
+				tvName = (TextView) convertView.findViewById(R.id.tvName);
 			}
-			return tvLU_Detail;
+			return tvName;
+		}
+		
+		public TextView getTime() {
+			if (tvTime == null) {
+				tvTime = (TextView) convertView.findViewById(R.id.tvTime);
+			}
+			return tvTime;
+		}
+		
+		public TextView getComment() {
+			if (tvComment == null) {
+				tvComment = (TextView) convertView.findViewById(R.id.tvComment);
+			}
+			return tvComment;
 		}
 		
 	}

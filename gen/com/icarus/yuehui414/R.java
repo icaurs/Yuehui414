@@ -78,8 +78,8 @@ public final class R {
         public static final int lvEvents=0x7f0b0004;
         public static final int main=0x7f0b0002;
         public static final int pbWait=0x7f0b0028;
-        public static final int scrollView1=0x7f0b0000;
         public static final int spnSex=0x7f0b0024;
+        public static final int svEvents=0x7f0b0000;
         public static final int textView1=0x7f0b0005;
         public static final int textView2=0x7f0b0007;
         public static final int textView3=0x7f0b0009;
