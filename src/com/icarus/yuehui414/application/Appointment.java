@@ -24,10 +24,20 @@ public class Appointment extends Application {
 	
 	public static String url = "http://www.yuehui414.com/";
 	
+	private int sex_index;
+	
 	private String LA_Id;
 	
 	private EventsList eventsList;
 	
+	public int getSex_index() {
+		return sex_index;
+	}
+
+	public void setSex_index(int sex_index) {
+		this.sex_index = sex_index;
+	}
+
 	public String getLA_Id() {
 		return LA_Id;
 	}

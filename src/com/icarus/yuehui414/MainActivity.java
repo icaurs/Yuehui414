@@ -11,6 +11,8 @@ import com.icarus.yuehui414.adapter.MainAdapter;
 import com.icarus.yuehui414.application.Appointment;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -22,29 +24,38 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+@SuppressLint("NewApi")
 public class MainActivity extends FragmentActivity {
 	
+	private ActionBar actionBar;
+	private MenuItem item1, item2;
 	private List<Map<String, Object>> list;
 	private Map<String, Object> map;
 	private DrawerLayout drawer;
 	private ListView navList;
-	private ImageView ivLeft, ivUser, ivIcon;
-	private TextView tvTitle, tvUser, tvMenu;
+	private ImageView ivUser, ivIcon;
+	private TextView tvUser, tvMenu;
 	private MainAdapter mainAdapter;
 	private String[] classes;
-	private int dw_state;
+	private int dw_state, item = 0, itemIndex;
 	private Appointment appointment;
 	private View headView;
 	private RelativeLayout layUser;
@@ -53,16 +64,29 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+//		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_main);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.titlebar);
+//		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.titlebar);
+		
+		setProgressBarIndeterminateVisibility(false);
+		actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setTitle("");
+		//设置actionbar的导航模式  
+		actionBar.setNavigationMode(actionBar.NAVIGATION_MODE_LIST);
+		//生成一个spinneradaper，设置actionbar下拉菜单的菜单项  
+		SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.action_bar_list, R.layout.myspinner);  
+		//为actionbar设置适配器跟监听器  
+		actionBar.setListNavigationCallbacks(spinnerAdapter,new DropDownListener());
 		
 		list = new ArrayList<Map<String,Object>>();
 		
 		appointment = (Appointment) getApplication();
+		appointment.setSex_index(0);
 		
-		tvTitle = (TextView) findViewById(R.id.tvTitle);
-		ivLeft = (ImageView) findViewById(R.id.ivLeft);
+//		tvTitle = (TextView) findViewById(R.id.tvTitle);
+//		ivLeft = (ImageView) findViewById(R.id.ivLeft);
 		
 		drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
 		navList = (ListView) findViewById(R.id.drawer);
@@ -72,10 +96,10 @@ public class MainActivity extends FragmentActivity {
 		navList.addHeaderView(headView);
 		headView.setOnClickListener(new HeadClick());
 		
-		//加载页面标题
-//		tvTitle.setTypeface(Typeface.DEFAULT_BOLD);
-		//点击左侧菜单
-		ivLeft.setOnClickListener(new LeftClick());
+//		//加载页面标题
+////		tvTitle.setTypeface(Typeface.DEFAULT_BOLD);
+//		//点击左侧菜单
+//		ivLeft.setOnClickListener(new LeftClick());
 		
 		navList.setSelector(new ColorDrawable(getResources().getColor(R.color.menu_user_bg)));
 		//加载菜单列表
@@ -87,24 +111,22 @@ public class MainActivity extends FragmentActivity {
 		//加载页面模块
 		classes = getResources().getStringArray(R.array.nav_classes);
 		navList.setOnItemClickListener(new OnItemClickListener(){
-			@SuppressLint("ResourceAsColor")
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, final int pos, long id){
+				item = pos - 1;
 				if (pos > 0) {
-					drawer.setDrawerListener(new DwListener(0, pos - 1));
+					drawer.setDrawerListener(new DwListener(1, item));
 					drawer.closeDrawer(navList);
 				}
 			}
 		});
 		navList.setOnItemSelectedListener(new MenuItemSelected());
 		
-		//加载初始页面模块
-		FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-		tx.replace(R.id.main, Fragment.instantiate(MainActivity.this, classes[0]));
-		tx.commit();
-		
+//		//加载初始页面模块
+//		loadFragment(item);
+//		
 		//监听DrawerLayout滑动事件
-		drawer.setDrawerListener(new DwListener(1, 1));
+		drawer.setDrawerListener(new DwListener(0, item));
 	}
 	
 	@Override
@@ -116,6 +138,80 @@ public class MainActivity extends FragmentActivity {
 			return false;
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		item1 = menu.findItem(R.id.item1);
+//		item2 = menu.findItem(R.id.item2);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			switch (dw_state) {
+			case 0:
+				drawer.openDrawer(navList);
+				break;
+			case 1:
+				drawer.closeDrawer(navList);
+				break;
+			}
+			return true;
+		case R.id.item1:
+			item1.setVisible(false);
+			setProgressBarIndeterminateVisibility(true);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	class DropDownListener implements OnNavigationListener {
+		
+		@Override
+		public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+			// TODO Auto-generated method stub
+			
+//			TestFragement testFragement = new TestFragement();
+//			FragmentManager manager = getFragmentManager();
+//			FragmentTransaction transaction = manager.beginTransaction();             
+//	    	// 将Activity中的内容替换成对应选择的Fragment              
+//	    	transaction.replace(android.R.id.content, testFragement, bar[itemPosition]);
+//	    	transaction.commit();
+
+			switch (item) {
+			case 0:
+				switch (itemPosition) {
+				case 0:
+					appointment.setSex_index(0);
+					break;
+				case 1:
+					appointment.setSex_index(1);
+					break;
+				case 2:
+					appointment.setSex_index(2);
+					break;
+				}
+				break;
+			case 1:
+				
+				break;
+			case 2:
+				
+				break;
+			}
+			loadFragment(item);
+			
+	        return true;
+	    }
+	    
 	}
 	
 	class MenuItemSelected implements OnItemSelectedListener{
@@ -152,13 +248,30 @@ public class MainActivity extends FragmentActivity {
 			dw_state = 0;  //0表示关闭左侧菜单
 			switch (mode) {
 			case 0:
-				FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-				tx.replace(R.id.main, Fragment.instantiate(MainActivity.this, classes[pos]));
-				tx.commit();
-//				tvTitle.setText(Appointment.main_title[pos]);
+				
 				break;
 			case 1:
-				
+				if (pos != itemIndex) {
+					switch (pos) {
+					case 0:
+						//设置actionbar的导航模式  
+						actionBar.setNavigationMode(actionBar.NAVIGATION_MODE_LIST);
+						//生成一个spinneradaper，设置actionbar下拉菜单的菜单项  
+						SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(MainActivity.this, R.array.action_bar_list, R.layout.myspinner);  
+						//为actionbar设置适配器跟监听器  
+						actionBar.setListNavigationCallbacks(spinnerAdapter,new DropDownListener());
+						break;
+					case 1:
+						actionBar.setNavigationMode(0);
+						loadFragment(pos);
+						break;
+					case 2:
+						actionBar.setNavigationMode(0);
+						loadFragment(pos);
+						break;
+					}
+				}
+				itemIndex = pos;
 				break;
 			}
 		}
@@ -181,6 +294,12 @@ public class MainActivity extends FragmentActivity {
 			
 		}
 		
+	}
+	
+	public void loadFragment(int pos) {
+		FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+		tx.replace(R.id.main, Fragment.instantiate(MainActivity.this, classes[pos]));
+		tx.commit();
 	}
 	
 	class HeadClick implements OnClickListener{

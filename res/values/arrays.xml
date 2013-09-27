@@ -23,5 +23,11 @@
         <item>com.icarus.yuehui414.fragment.Fragment2</item>
         <item>com.icarus.yuehui414.fragment.Fragment3</item>
     </string-array>
+    
+    <string-array name="action_bar_list">
+	    <item>美　女</item>
+	    <item>帅　哥</item>
+	    <item>全　部</item>
+	</string-array>
 
 </resources>

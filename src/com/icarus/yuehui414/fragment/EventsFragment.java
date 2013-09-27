@@ -43,13 +43,13 @@ import android.widget.Toast;
 
 public class EventsFragment extends Fragment {
 	
-	private FrameLayout layWait;
-	private ImageView ivWait;
-	private ProgressBar pbWait;
+//	private FrameLayout layWait;
+//	private ImageView ivWait;
+//	private ProgressBar pbWait;
 	private ListView lvEvents;
 	private View footView;
 	private TextView loading_msg;
-	private Spinner spnSex;
+//	private Spinner spnSex;
 	private Appointment appointment;
 	private List<Map<String, Object>> list;
 	private Map<String, Object> map;
@@ -62,7 +62,7 @@ public class EventsFragment extends Fragment {
 	private int exceptionNo = 1;
 	private List<String> list_sex;
 	/*判断listview中当前第几个item*/
-	private int lastItem = 0, spnCount = 0, index = 1, spn_index = 0, sex = 0;
+	private int lastItem = 0, spnCount = 0, index = 1, spn_index = 0;
 	/*判断是否可更新*/
 	private boolean isRefreshFoot = false;
 	/*判断是否正在更新*/
@@ -97,10 +97,10 @@ public class EventsFragment extends Fragment {
 			
 		}
 		
-		spnSex = (Spinner) getActivity().findViewById(R.id.spnSex);
-		layWait = (FrameLayout) getActivity().findViewById(R.id.layWait);
-		ivWait = (ImageView) getActivity().findViewById(R.id.ivWait);
-		pbWait = (ProgressBar) getActivity().findViewById(R.id.pbWait);
+//		spnSex = (Spinner) getActivity().findViewById(R.id.spnSex);
+//		layWait = (FrameLayout) getActivity().findViewById(R.id.layWait);
+//		ivWait = (ImageView) getActivity().findViewById(R.id.ivWait);
+//		pbWait = (ProgressBar) getActivity().findViewById(R.id.pbWait);
 		lvEvents = (ListView) getActivity().findViewById(R.id.lvEvents);
 		footView = LayoutInflater.from(getActivity()).inflate(R.layout.list_foot, null);
 		loading_msg = (TextView) footView.findViewById(R.id.loading_msg);
@@ -129,8 +129,8 @@ public class EventsFragment extends Fragment {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			ivWait.setVisibility(View.GONE);
-			pbWait.setVisibility(View.VISIBLE);
+//			ivWait.setVisibility(View.GONE);
+//			pbWait.setVisibility(View.VISIBLE);
 			footView.setVisibility(View.VISIBLE);
 		}
 
@@ -139,7 +139,7 @@ public class EventsFragment extends Fragment {
 			// TODO Auto-generated method stub
 			asy = params[0];
 			if (asy.equals("0")) {
-				getSexList();
+//				getSexList();
 				try {
 					getEvents();
 				} catch (Exception e) {
@@ -206,9 +206,9 @@ public class EventsFragment extends Fragment {
 					Log.e("EventsFragment", "listview error: " + e);
 				}
 			}
-			pbWait.setVisibility(View.GONE);
+//			pbWait.setVisibility(View.GONE);
 			footView.setVisibility(View.GONE);
-			ivWait.setVisibility(View.VISIBLE);
+//			ivWait.setVisibility(View.VISIBLE);
 		}
 		
 	}
@@ -219,12 +219,12 @@ public class EventsFragment extends Fragment {
 			Toast.makeText(getActivity(), "亲，没有访问到数据", Toast.LENGTH_SHORT).show();
 			break;
 		case 1:
-			spnSex.setVisibility(View.VISIBLE);
-			ArrayAdapter<String> disAdapter = new ArrayAdapter<String>(getActivity(), R.layout.myspinner, list_sex);
-			disAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			spnSex.setAdapter(disAdapter);
-			spnSex.setSelection(spn_index);
-			spnSex.setOnItemSelectedListener(new SexItemSelect());
+//			spnSex.setVisibility(View.VISIBLE);
+//			ArrayAdapter<String> disAdapter = new ArrayAdapter<String>(getActivity(), R.layout.myspinner, list_sex);
+//			disAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//			spnSex.setAdapter(disAdapter);
+//			spnSex.setSelection(spn_index);
+//			spnSex.setOnItemSelectedListener(new SexItemSelect());
 			
 			lvEvents.setSelector(new ColorDrawable(Color.TRANSPARENT));
 			eventsAdapter = new EventsAdapter(getActivity(), list);
@@ -232,7 +232,7 @@ public class EventsFragment extends Fragment {
 			lvEvents.setOnScrollListener(new EventsScroll());
 			lvEvents.setOnItemClickListener(new EventsItemClick());
 			
-			layWait.setOnClickListener(new UpdateEvents());
+//			layWait.setOnClickListener(new UpdateEvents());
 			break;
 		case 2:
 			Toast.makeText(getActivity(), "亲，内容已经到底", Toast.LENGTH_SHORT).show();
@@ -284,13 +284,13 @@ public class EventsFragment extends Fragment {
 					if (isRefreshFootIng == false) {
 						switch (arg2) {
 						case 0:
-							sex = 0;
+							appointment.setSex_index(0);
 							break;
 						case 1:
-							sex = 1;
+							appointment.setSex_index(1);
 							break;
 						case 2:
-							sex = 3;
+							appointment.setSex_index(3);
 							break;
 						}
 						spn_index = arg2;
@@ -405,7 +405,7 @@ public class EventsFragment extends Fragment {
 	}
 	
 	public void getEventsList() throws Exception {
-		list_events = getWebService.getEventsList(index, sex);
+		list_events = getWebService.getEventsList(index, appointment.getSex_index());
 		if (list_events.size() < 10) {
 			isUpdate = false;
 		}else {

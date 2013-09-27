@@ -15,6 +15,7 @@ public final class R {
         public static final int zoom_exit_2=0x7f040003;
     }
     public static final class array {
+        public static final int action_bar_list=0x7f050002;
         public static final int nav_classes=0x7f050001;
         public static final int nav_names=0x7f050000;
     }
