@@ -9,12 +9,17 @@ import com.icarus.yuehui414.adapter.EventsAdapter;
 import com.icarus.yuehui414.adapter.EventsCommentAdapter;
 import com.icarus.yuehui414.application.Appointment;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -22,8 +27,10 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+@SuppressLint("NewApi")
 public class EventsActivity extends Activity {
 	
+	private ActionBar actionBar;
 	private ScrollView svEvents;
 	private ListView lvEvents;
 	private Appointment appointment;
@@ -40,14 +47,18 @@ public class EventsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_events);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.titlebar);
 		
-		appointment = (Appointment) getApplication();
 		list = new ArrayList<Map<String,Object>>();
 		
+		appointment = (Appointment) getApplication();
 		LA_Id = appointment.getLA_Id();
+		
+		setProgressBarIndeterminateVisibility(false);
+		actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setTitle("");
 		
 		svEvents = (ScrollView) findViewById(R.id.svEvents);
 		lvEvents = (ListView) findViewById(R.id.lvEvents);
@@ -57,6 +68,31 @@ public class EventsActivity extends Activity {
 		asy = "0";
 		asyncTaskHelper = new AsyncTaskHelper();
 		asyncTaskHelper.execute(asy);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_event, menu);
+		appointment.item_event = menu.findItem(R.id.item_event);
+//		item2 = menu.findItem(R.id.item2);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		case R.id.item_event:
+			
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	class AsyncTaskHelper extends AsyncTask<String, String, String>{

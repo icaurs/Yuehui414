@@ -46,7 +46,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class MainActivity extends FragmentActivity {
 	
 	private ActionBar actionBar;
-	private MenuItem item1, item2;
+//	private MenuItem item1, item2;
 	private List<Map<String, Object>> list;
 	private Map<String, Object> map;
 	private DrawerLayout drawer;
@@ -55,7 +55,7 @@ public class MainActivity extends FragmentActivity {
 	private TextView tvUser, tvMenu;
 	private MainAdapter mainAdapter;
 	private String[] classes;
-	private int dw_state, item = 0, itemIndex;
+	private int dw_state, item = 0, itemIndex, itemposition;
 	private Appointment appointment;
 	private View headView;
 	private RelativeLayout layUser;
@@ -69,6 +69,11 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main);
 //		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.titlebar);
 		
+		list = new ArrayList<Map<String,Object>>();
+		
+		appointment = (Appointment) getApplication();
+		appointment.setSex_index(0);
+		
 		setProgressBarIndeterminateVisibility(false);
 		actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -79,11 +84,6 @@ public class MainActivity extends FragmentActivity {
 		SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.action_bar_list, R.layout.myspinner);  
 		//为actionbar设置适配器跟监听器  
 		actionBar.setListNavigationCallbacks(spinnerAdapter,new DropDownListener());
-		
-		list = new ArrayList<Map<String,Object>>();
-		
-		appointment = (Appointment) getApplication();
-		appointment.setSex_index(0);
 		
 //		tvTitle = (TextView) findViewById(R.id.tvTitle);
 //		ivLeft = (ImageView) findViewById(R.id.ivLeft);
@@ -144,8 +144,8 @@ public class MainActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
-		item1 = menu.findItem(R.id.item1);
+		inflater.inflate(R.menu.menu_main, menu);
+		appointment.item_main_update = menu.findItem(R.id.item_main_update);
 //		item2 = menu.findItem(R.id.item2);
 		return true;
 	}
@@ -164,9 +164,8 @@ public class MainActivity extends FragmentActivity {
 				break;
 			}
 			return true;
-		case R.id.item1:
-			item1.setVisible(false);
-			setProgressBarIndeterminateVisibility(true);
+		case R.id.item_main_update:
+			updateEvents();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -185,29 +184,9 @@ public class MainActivity extends FragmentActivity {
 //	    	// 将Activity中的内容替换成对应选择的Fragment              
 //	    	transaction.replace(android.R.id.content, testFragement, bar[itemPosition]);
 //	    	transaction.commit();
-
-			switch (item) {
-			case 0:
-				switch (itemPosition) {
-				case 0:
-					appointment.setSex_index(0);
-					break;
-				case 1:
-					appointment.setSex_index(1);
-					break;
-				case 2:
-					appointment.setSex_index(2);
-					break;
-				}
-				break;
-			case 1:
-				
-				break;
-			case 2:
-				
-				break;
-			}
-			loadFragment(item);
+			
+			itemposition = itemPosition;
+			updateEvents();
 			
 	        return true;
 	    }
@@ -300,6 +279,34 @@ public class MainActivity extends FragmentActivity {
 		FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
 		tx.replace(R.id.main, Fragment.instantiate(MainActivity.this, classes[pos]));
 		tx.commit();
+	}
+	
+	public void updateEvents() {
+		appointment.item_main_update.setVisible(false);
+		setProgressBarIndeterminateVisibility(true);
+		
+		switch (item) {
+		case 0:
+			switch (itemposition) {
+			case 0:
+				appointment.setSex_index(0);
+				break;
+			case 1:
+				appointment.setSex_index(1);
+				break;
+			case 2:
+				appointment.setSex_index(2);
+				break;
+			}
+			break;
+		case 1:
+			
+			break;
+		case 2:
+			
+			break;
+		}
+		loadFragment(item);
 	}
 	
 	class HeadClick implements OnClickListener{

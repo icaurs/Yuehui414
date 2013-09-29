@@ -206,6 +206,8 @@ public class EventsFragment extends Fragment {
 					Log.e("EventsFragment", "listview error: " + e);
 				}
 			}
+			appointment.item_main_update.setVisible(true);
+			getActivity().setProgressBarIndeterminateVisibility(false);
 //			pbWait.setVisibility(View.GONE);
 			footView.setVisibility(View.GONE);
 //			ivWait.setVisibility(View.VISIBLE);

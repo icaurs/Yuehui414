@@ -7,6 +7,7 @@ import com.icarus.yuehui414.R;
 import com.icarus.yuehui414.entity.EventsList;
 
 import android.app.Application;
+import android.view.MenuItem;
 
 public class Appointment extends Application {
 	
@@ -30,6 +31,10 @@ public class Appointment extends Application {
 	
 	private EventsList eventsList;
 	
+	public MenuItem item_main_update;
+	
+	public MenuItem item_event;
+	
 	public int getSex_index() {
 		return sex_index;
 	}
@@ -52,6 +57,22 @@ public class Appointment extends Application {
 
 	public void setEventsList(EventsList eventsList) {
 		this.eventsList = eventsList;
+	}
+
+	public MenuItem getItem_main_update() {
+		return item_main_update;
+	}
+
+	public void setItem_main_update(MenuItem item_main_update) {
+		this.item_main_update = item_main_update;
+	}
+
+	public MenuItem getItem_event() {
+		return item_event;
+	}
+
+	public void setItem_event(MenuItem item_event) {
+		this.item_event = item_event;
 	}
 
 	@Override
